@@ -1,5 +1,7 @@
 # ReverseAudio
 
+<img width="912" alt="Sceenshot" src="https://user-images.githubusercontent.com/4062059/134825588-18043a7d-6b46-4b19-94cd-fa19433fed2f.png">
+
 The user interface is multiplatform (macOS, iOS) SwiftUI.
 
 Reverses audio and then reverses the reversed audio. The audio files reversed are in the app bundle, named:
