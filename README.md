@@ -4,7 +4,7 @@ The user interface is multiplatform (macOS, iOS) SwiftUI.
 
 Reverses audio and then reverses the reversed audio. The audio files reversed are in the app bundle, named:
 
-"I'm Afraid I Can't Do That"
+"I'm Afraid I Can't Do That" and 
 "Piano"
 
 The method that reverses audio is an extension of AVAsset:
