@@ -68,6 +68,9 @@ class ReverseAudioObservable: ObservableObject  {
                 }
             }
         }
+        else {
+            print("Can't load resource: \(filename).\(withExtension)")
+        }
     }
     
     func reverseImAfraidICantDoThat() {
@@ -90,22 +93,12 @@ class ReverseAudioObservable: ObservableObject  {
         reverseBundleResource(filename: "Piano", withExtension: "m4a")
     }
     
-    func loadPlayAudioURL(named name:String) {
+    func loadPlayAudioURL(forResource:String, withExtension: String) {
         
         var audioURL:URL?
         
-        if let url = Bundle.main.url(forResource: name, withExtension: "m4a") {
+        if let url = Bundle.main.url(forResource: forResource, withExtension: withExtension) {
             audioURL = url
-        }
-        else {
-            if let url = Bundle.main.url(forResource: name, withExtension: "aif") {
-                audioURL = url
-            }
-            else {
-                if let url = Bundle.main.url(forResource: name, withExtension: "wav") {
-                    audioURL = url
-                }
-            }
         }
         
         if let audioURL = audioURL {

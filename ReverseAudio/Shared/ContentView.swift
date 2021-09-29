@@ -56,11 +56,11 @@ struct ContentView: View {
                 .padding(2)
             
             Button("I'm Afraid I Can't Do That", action: { 
-                reverseAudioObservable.loadPlayAudioURL(named: "I'm Afraid I Can't Do That")
+                reverseAudioObservable.loadPlayAudioURL(forResource: "I'm Afraid I Can't Do That", withExtension: "m4a")
             }).padding(2)
             
             Button("Piano", action: { 
-                reverseAudioObservable.loadPlayAudioURL(named: "Piano")
+                reverseAudioObservable.loadPlayAudioURL(forResource: "Piano", withExtension: "m4a")
             }).padding(2)
             
             Text("Results (tap button above to reverse):")
