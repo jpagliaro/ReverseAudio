@@ -63,7 +63,6 @@
 			children = (
 				CDC22B6C2700CBE40088213E /* ReverseAudio--iOS--Info.plist */,
 				CDC22B3A2700ACF20088213E /* Shared */,
-				CDC22B6B2700CBD30088213E /* iOS */,
 				CDC22B492700ACF30088213E /* macOS */,
 				CDC22B432700ACF30088213E /* Products */,
 			);
@@ -98,13 +97,6 @@
 				CDC22B4A2700ACF30088213E /* macOS.entitlements */,
 			);
 			path = macOS;
-			sourceTree = "<group>";
-		};
-		CDC22B6B2700CBD30088213E /* iOS */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = iOS;
 			sourceTree = "<group>";
 		};
 		CDC22B6D27010A410088213E /* audio files */ = {
