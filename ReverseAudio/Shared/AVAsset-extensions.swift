@@ -15,7 +15,7 @@ let kAudioReaderSettings = [
     AVLinearPCMIsFloatKey: false as AnyObject,
     AVLinearPCMIsNonInterleaved: false as AnyObject]
 
-let kAudioWriterExpectsMediaDataInRealTime = false // due to a problem with Linear PCM video
+let kAudioWriterExpectsMediaDataInRealTime = false
 let kReverseAudioQueue = "com.limit-point.reverse-audio-queue"
 
 extension AVAsset {
@@ -104,7 +104,7 @@ extension AVAsset {
                         audioSamples.append(sampleBuffer)
                     }
                     else {
-                        audioReader.cancelReading() // Seems to be okay to call cancelReading even if reader is done. 
+                        audioReader.cancelReading()
                     }
                 }
             }
@@ -118,7 +118,6 @@ extension AVAsset {
             // MARK: SETUP WRITER
         
             // create 'audioCompressionSettings' using an uncompressed sample buffer
-            // Using the format desriptor form the track doesn't work, I think because the track has compressed data
         let sampleBuffer = audioSamples[0]
         
         let sourceFormat = CMSampleBufferGetFormatDescription(sampleBuffer)
@@ -130,10 +129,8 @@ extension AVAsset {
             return
         }
         
-            // Note - sourceFormatHint is required also for 'passthrough' - which is when outputSettings is nil
         let audioWriterInput = AVAssetWriterInput(mediaType: AVMediaType.audio, outputSettings:audioCompressionSettings, sourceFormatHint: sourceFormat)
         
-            // This is often cause for issues: true or false?
         audioWriterInput.expectsMediaDataInRealTime = kAudioWriterExpectsMediaDataInRealTime
         
         if assetWriter.canAdd(audioWriterInput) {
