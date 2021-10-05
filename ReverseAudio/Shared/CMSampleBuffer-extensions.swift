@@ -10,7 +10,7 @@ import AVFoundation
 
 extension CMSampleBuffer {
     
-    func reverse(timingInfo:[CMSampleTimingInfo]) -> CMSampleBuffer? {
+    func reverse() -> CMSampleBuffer? {
         
         var blockBuffer: CMBlockBuffer? = nil
         let audioBufferList: UnsafeMutableAudioBufferListPointer = AudioBufferList.allocate(maximumBuffers: 1)
@@ -59,7 +59,7 @@ extension CMSampleBuffer {
             
             var newBuffer:CMSampleBuffer?
             
-            guard CMSampleBufferCreate(allocator: kCFAllocatorDefault, dataBuffer: blockBuffer, dataReady: true, makeDataReadyCallback: nil, refcon: nil, formatDescription: formatDescription, sampleCount: numberOfSamples, sampleTimingEntryCount: timingInfo.count, sampleTimingArray: timingInfo, sampleSizeEntryCount: 0, sampleSizeArray: nil, sampleBufferOut: &newBuffer) == noErr else {
+            guard CMSampleBufferCreate(allocator: kCFAllocatorDefault, dataBuffer: blockBuffer, dataReady: true, makeDataReadyCallback: nil, refcon: nil, formatDescription: formatDescription, sampleCount: numberOfSamples, sampleTimingEntryCount: 0, sampleTimingArray: nil, sampleSizeEntryCount: 0, sampleSizeArray: nil, sampleBufferOut: &newBuffer) == noErr else {
                 return self
             }
             

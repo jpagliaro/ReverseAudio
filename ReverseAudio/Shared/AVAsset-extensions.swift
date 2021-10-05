@@ -68,10 +68,7 @@ extension AVAsset {
             // MARK: READ decompressed SAMPLES
         
         var audioSamples:[CMSampleBuffer] = []
-        var timingInfos:[CMSampleTimingInfo] = []
-        
-        var invalidTimingCount = false
-        
+                
         if audioReader.startReading() {
             
             while audioReader.status == .reading {
@@ -79,28 +76,6 @@ extension AVAsset {
                 autoreleasepool { () -> Void in
                     
                     if let sampleBuffer = audioReaderOutput.copyNextSampleBuffer() {
-                        
-                        var timingInfoCount: CMItemCount = 0
-                        CMSampleBufferGetSampleTimingInfoArray(sampleBuffer, entryCount: 0, arrayToFill: nil, entriesNeededOut: &timingInfoCount)
-                        
-                        if timingInfoCount != 1 {
-                            audioReader.cancelReading()
-                            invalidTimingCount = true
-                            return
-                        }
-                        
-                        var timingInfo = CMSampleTimingInfo()
-                        CMSampleBufferGetSampleTimingInfoArray(sampleBuffer, entryCount: 0, arrayToFill: &timingInfo, entriesNeededOut: &timingInfoCount)
-                        
-                        let presentationTime = timingInfo.presentationTimeStamp
-                        let duration = CMSampleBufferGetDuration(sampleBuffer)
-                        
-                        let endTime = CMTimeAdd(presentationTime, duration)
-                        let newPresentationTime = CMTimeSubtract(self.duration, endTime)
-                        timingInfo.presentationTimeStamp = newPresentationTime
-                        
-                        timingInfos.append(timingInfo)
-                        
                         audioSamples.append(sampleBuffer)
                     }
                     else {
@@ -108,11 +83,6 @@ extension AVAsset {
                     }
                 }
             }
-        }
-        
-        if invalidTimingCount {
-            completion(false, "Unexpected timing info.")
-            return
         }
         
             // MARK: SETUP WRITER
@@ -193,10 +163,8 @@ extension AVAsset {
                 progress(progressValue)
                 
                 let sampleBuffer = audioSamples[nbrSamples - 1 - index]
-                
-                let timingInfo = timingInfos[index]
-                
-                if let reversedBuffer = sampleBuffer.reverse(timingInfo: [timingInfo]), audioWriterInput.append(reversedBuffer) == true {
+                                
+                if let reversedBuffer = sampleBuffer.reverse(), audioWriterInput.append(reversedBuffer) == true {
                     index += 1
                 }
                 else {
