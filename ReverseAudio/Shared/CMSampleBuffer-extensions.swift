@@ -14,7 +14,8 @@ extension CMSampleBuffer {
         
         var blockBuffer: CMBlockBuffer? = nil
         let audioBufferList: UnsafeMutableAudioBufferListPointer = AudioBufferList.allocate(maximumBuffers: 1)
-        CMSampleBufferGetAudioBufferListWithRetainedBlockBuffer(
+        
+        guard CMSampleBufferGetAudioBufferListWithRetainedBlockBuffer(
             self,
             bufferListSizeNeededOut: nil,
             bufferListOut: audioBufferList.unsafeMutablePointer,
@@ -23,7 +24,9 @@ extension CMSampleBuffer {
             blockBufferMemoryAllocator: nil,
             flags: kCMSampleBufferFlag_AudioBufferList_Assure16ByteAlignment,
             blockBufferOut: &blockBuffer
-        )
+        ) == noErr else {
+            return nil
+        }
         
         if let data: UnsafeMutableRawPointer = audioBufferList.unsafePointer.pointee.mBuffers.mData {
             
@@ -60,13 +63,13 @@ extension CMSampleBuffer {
             var newBuffer:CMSampleBuffer?
             
             guard CMSampleBufferCreate(allocator: kCFAllocatorDefault, dataBuffer: blockBuffer, dataReady: true, makeDataReadyCallback: nil, refcon: nil, formatDescription: formatDescription, sampleCount: numberOfSamples, sampleTimingEntryCount: 0, sampleTimingArray: nil, sampleSizeEntryCount: 0, sampleSizeArray: nil, sampleBufferOut: &newBuffer) == noErr else {
-                return self
+                return nil
             }
             
             return newBuffer
         }
         
-        return self
+        return nil
     }
 }
 
