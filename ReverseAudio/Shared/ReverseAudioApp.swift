@@ -11,15 +11,20 @@ import SwiftUI
 struct ReverseAudioApp: App {
     var width:CGFloat = 480
     var height:CGFloat = 480
-#if os(macOS)
+
     init() {
+#if os(macOS)
         if let screen = NSScreen.main {
             let rect = screen.frame
             height = rect.size.height/2
             width = rect.size.width/2
         }
+#else
+        let screenRect = UIScreen.main.bounds
+        width = screenRect.size.width
+        height = screenRect.size.height
+#endif     
     }
-#endif
     
     var body: some Scene {
         WindowGroup {
